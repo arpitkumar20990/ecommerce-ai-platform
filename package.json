@@ -1,0 +1,18 @@
+{
+  "name": "anvaya",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-oriented AI-powered multi-vendor e-commerce platform",
+  "workspaces":[
+    "apps/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:gateway": "npm run dev --workspace=apps/api-gateway",
+    "dev:auth": "npm run dev --workspace=apps/auth-service"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
