@@ -1,8 +1,7 @@
-import dotenv from 'dotenv'
 import app from './app.js'
+import PORT from './config/env.js'
 
-dotenv.config()
-const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, ()=>{
     console.log(`Api gateway is running on port ${PORT}`)
