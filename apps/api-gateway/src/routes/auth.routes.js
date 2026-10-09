@@ -8,7 +8,11 @@ authRouter.get('/health', async (req, res, next)=>{
 
         const url = `${AUTH_SERVICE_URL}/health`
 
-        const response = await fetch(url);
+        const response = await fetch(url,{
+            headers : {
+                "x-request-id" : req.requestId
+            }
+        });
 
         const data = await response.json();
 
