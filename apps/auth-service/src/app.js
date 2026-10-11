@@ -5,6 +5,7 @@ import notFoundMiddleware from './middleware/notFound.middleware.js';
 import requestIdMiddleware from './middleware/requestId.middleware.js';
 import loggerMiddleware from './middleware/logger.middleware.js';
 import { prisma } from './config/prisma.js';
+import authRouter from './routes/auth.routes.js';
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(express.json());
 
 app.use(requestIdMiddleware)
 app.use(loggerMiddleware)
+
+app.use('/api/auth', authRouter)
 
 app.get("/health", (req,res)=>{
     res.status(200).json({

@@ -23,4 +23,25 @@ authRouter.get('/health', async (req, res, next)=>{
     }
 })
 
+authRouter.post("/register" ,async (req, res, next)=>{
+    try {
+        const response = await fetch(
+            `${AUTH_SERVICE_URL}/api/auth/register`,
+            {
+                method : "POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "x-request-id" : req.requestId
+                },
+                body : JSON.stringify(req.body)
+            }
+        )
+
+        const data = await response.json();
+        res.status(response.status).json(data);
+    } catch (error) {
+        next(error);
+    }
+})
+
 export default authRouter;
