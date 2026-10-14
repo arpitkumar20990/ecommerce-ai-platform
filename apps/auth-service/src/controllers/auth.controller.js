@@ -97,6 +97,13 @@ export const loginUser = async(req,res,next)=>{
 
         const accessToken = generateAccessToken(user.id)
 
+        res.cookie("token", accessToken ,{
+            httpOnly : true,
+            secure: process.env.COOKIE_SECURE === "true",
+            sameSite : "lax",
+            maxAge : 7*24*60*60*1000,
+        })
+
         return res.status(200).json({
             success : true,
             message : "Login Successful",
@@ -106,11 +113,28 @@ export const loginUser = async(req,res,next)=>{
                     email : user.email,
                     status : user.status
                 },
-                accessToken
+                
             }
         })
         
     } catch (error) {
         next(error)
+    }
+}
+
+export const logoutUser = async(req, res, next)=>{
+    try {
+        res.clearCookie("token",{
+            httpOnly: true,
+            secure: process.env.COOKIE_SECURE === "true",
+            sameSite: process.env.COOKIE_SAME_SITE || "lax",
+        })
+
+        return res.status(200).json({
+            success:true,
+            message: "Logged out successfully",
+        })
+    } catch (error) {
+        next(error);
     }
 }

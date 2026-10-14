@@ -59,10 +59,63 @@ authRouter.post("/login" ,async (req, res, next)=>{
         )
 
         const data = await response.json();
+
+        const setCookies = response.headers.getSetCookie();
+
+        if(setCookies.length > 0){
+            res.setHeader("Set-Cookie", setCookies);
+        }
+
         res.status(response.status).json(data);
     } catch (error) {
         next(error);
     }
 })
+
+authRouter.get("/me", async(req, res, next)=>{
+    try {
+        const response = await fetch(
+            `${AUTH_SERVICE_URL}/api/auth/me`,
+            {
+                method : "GET",
+                headers : {
+                    cookie : req.headers.cookie || "",
+                    "x-request-id" : req.requestId
+                }
+            }
+        )
+
+        const data = await response.json();
+        res.status(response.status).json(data);
+    } catch (error) {
+        next(error);
+    }
+})
+
+authRouter.post("/logout", async (req, res, next) => {
+  try {
+    const response = await fetch(
+      `${AUTH_SERVICE_URL}/api/auth/logout`,
+      {
+        method: "GET",
+        headers: {
+          cookie: req.headers.cookie || "",
+          "x-request-id": req.requestId,
+        },
+      }
+    );
+
+    const setCookies = response.headers.getSetCookie();
+
+    if (setCookies.length > 0) {
+      res.setHeader("Set-Cookie", setCookies);
+    }
+
+    const data = await response.json();
+    return res.status(response.status).json(data);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default authRouter;
