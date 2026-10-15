@@ -5,7 +5,7 @@ export const generateAccessToken = (userId) => {
             {id : userId},
             process.env.JWT_SECRET,
             {
-                expiresIn : 7*24*60*60*1000,
+                expiresIn : 15*60*1000,
                 issuer : "anvaya-auth",
                 audience : "anvaya-api"
             }
