@@ -1,13 +1,13 @@
 import {Router} from "express"
 import { loginUser, logoutUser, registerUser } from "../controllers/auth.controller";
 import authMiddleware from "../middleware/auth.middleware";
-import { success } from "zod";
 
 const authRouter = Router();
 
 authRouter.post('/register', registerUser)
 authRouter.post('/login', loginUser)
 authRouter.get('/logout', logoutUser)
+authRouter.post('/refresh', refres)
 
 authRouter.get('/me', authMiddleware, (req,res)=>{
     return res.status(200).json({

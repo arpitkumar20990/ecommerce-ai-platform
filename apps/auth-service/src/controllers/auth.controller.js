@@ -2,6 +2,7 @@ import {success, z} from 'zod';
 import bcrypt from 'bcrypt';
 import {prisma} from '../config/prisma.js'
 import { generateAccessToken } from '../utils/jwt.js';
+import { generateRefreshToken, hashRefreshToken } from '../utils/refresh-token.js';
 const registerSchema = z.object({
   email: z.string().trim().email().transform((value) => value.toLowerCase()),
   password: z.string().min(6).max(72),
@@ -95,13 +96,39 @@ export const loginUser = async(req,res,next)=>{
             })
         }
 
+        const refreshToken = generateRefreshToken();
+        const tokenHash = hashRefreshToken(refreshToken);
+        const expiresAt = new Date(
+            Date.now() + 7*24*60*60*1000
+        )
+
+        await prisma.refreshToken.create({
+            data : {
+                tokenHash,
+                userId : user.id,
+                expiresAt
+            },
+            select : {
+                id : true,
+                userId : true,
+                createdAt : true
+            }
+        })
+
+        res.cookie("refresh_token", refreshToken ,{
+            httpOnly : true,
+            secure: process.env.COOKIE_SECURE === "true",
+            sameSite : "lax",
+            maxAge : 7*24*60*60*1000,
+        })
+
         const accessToken = generateAccessToken(user.id)
 
         res.cookie("token", accessToken ,{
             httpOnly : true,
             secure: process.env.COOKIE_SECURE === "true",
             sameSite : "lax",
-            maxAge : 7*24*60*60*1000,
+            maxAge : 15*60*1000,
         })
 
         return res.status(200).json({
