@@ -1,4 +1,4 @@
-import { success, z } from 'zod';
+import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { prisma } from '../config/prisma.js'
 import { generateAccessToken } from '../utils/jwt.js';
