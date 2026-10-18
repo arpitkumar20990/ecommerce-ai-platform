@@ -9,7 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.js",
     "start": "tsx src/server.js",
-    "postinstall": "prisma skills sync || exit 0"
+    "postinstall": "npm run prisma:generate && npm run prisma:skills",
+    "prisma:generate": "prisma generate --schema prisma/schema.prisma",
+    "prisma:skills": "prisma skills sync || exit 0"
   },
   "keywords": [],
   "author": "",

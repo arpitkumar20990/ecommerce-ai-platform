@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { loginUser, logoutUser, registerUser } from "../controllers/auth.controller";
+import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/auth.controller";
 import authMiddleware from "../middleware/auth.middleware";
 
 const authRouter = Router();
@@ -7,7 +7,7 @@ const authRouter = Router();
 authRouter.post('/register', registerUser)
 authRouter.post('/login', loginUser)
 authRouter.get('/logout', logoutUser)
-authRouter.post('/refresh', refres)
+authRouter.post('/refresh', refreshAccessToken)
 
 authRouter.get('/me', authMiddleware, (req,res)=>{
     return res.status(200).json({
