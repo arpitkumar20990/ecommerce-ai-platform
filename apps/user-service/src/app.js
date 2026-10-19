@@ -1,11 +1,10 @@
-import "dotenv/config"
 import express from "express"
 import cors from "cors"
-import userRouter from "./routes/user.routes"
-import requestIdMiddleware from "./middleware/requestId.middleware"
-import loggerMiddleware from "./middleware/logger.middleware"
-import notFoundMiddleware from "./middleware/notFound.middleware"
-import errorMiddleware from "./middleware/error.middleware"
+import userRouter from "./routes/user.routes.js"
+import requestIdMiddleware from "./middleware/requestId.middleware.js"
+import loggerMiddleware from "./middleware/logger.middleware.js"
+import notFoundMiddleware from "./middleware/notFound.middleware.js"
+import errorMiddleware from "./middleware/error.middleware.js"
 
 const app = express()
 
@@ -18,7 +17,8 @@ app.use(cors({
     credentials : true
 }))
 
-app.use("api/user", userRouter)
+app.use("/api/users", userRouter)
+
 app.get("/health" , (req, res)=>{
     return res.status(200).json({
         success : true,

@@ -1,8 +1,6 @@
-import "dotenv/config"
 import app from "./app.js"
-
-const PORT = process.env.PORT
+import { PORT } from "./config/env.js"
 
 app.listen(PORT, ()=>{
-    console.log("Anvaya user service is running on port 5002")
+    console.log(`Anvaya user service is running on port ${PORT}`)
 })

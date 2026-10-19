@@ -1,5 +1,4 @@
-import { prisma } from "../config/prisma";
-
+import { prisma } from "../config/prisma.js";
 
 export const getMyProfile = async(req, res, next)=>{
     try{
@@ -20,6 +19,7 @@ export const getMyProfile = async(req, res, next)=>{
             success : true,
             data : profile,
         });
+        
     }catch(error){
         next(error);
     }
