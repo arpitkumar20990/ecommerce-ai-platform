@@ -35,7 +35,7 @@ export const getMyProfile = async(req, res, next)=>{
         if(!profile){
             return res.status(404).json({
                 success : false,
-                message : "User Profile not found"
+                message : "User profile not found"
             })
         }
 
